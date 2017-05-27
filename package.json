@@ -13,7 +13,12 @@
   ],
   "jest": {
     "collectCoverage": false,
-    "collectCoverageFrom" : ["**/*.{js,jsx}", "!**/node_modules/**", "!**/coverage/**", "!**/vendor/**"]
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!**/vendor/**"
+    ]
   },
   "author": "Marton Papp <morz@morz.hu> (http://morz.hu)",
   "license": "ISC",
@@ -27,6 +32,7 @@
     "jest": "19.0.2"
   },
   "dependencies": {
-    "lodash": "4.17.4"
+    "lodash": "4.17.4",
+    "rsvp": "^3.5.0"
   }
 }
