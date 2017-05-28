@@ -1,113 +1,235 @@
-const isUndefined = require('lodash/isUndefined');
-const coapClient = require('./lib/coap-client.js');
-const { transformRawDeviceData, transformRawGroupData } = require('./lib/data-transfomers');
+'use strict';
+
+var isUndefined = require('lodash/isUndefined');
+var coapClient = require('./lib/coap-client.js');
+var transformRawDeviceData = require('./lib/data-transfomers').transformRawDeviceData;
+var transformRawGroupData = require('./lib/data-transfomers').transformRawGroupData;
+var RSVP = require('rsvp');
+RSVP.on('error', function (reason) {
+    console.log(false, reason);
+});
 
 class Tradfri {
-  constructor(config) {
-    this.coapClient = coapClient.create(config);
-  }
-
-  getDeviceIds() {
-    return this.coapClient.getDevices();
-  }
-
-  getGroupIds() {
-    return this.coapClient.getGroups();
-  }
-
-  async getDevices() {
-    const devices = await this.getDeviceIds();
-    const result = [];
-
-    for (let deviceId of devices) {
-      const device = await this.coapClient.getDevices(deviceId);
-      result.push(transformRawDeviceData(device));
+    constructor(config) {
+        this.coapClient = coapClient.create(config);
     }
 
-    return result;
-  }
-
-  async getGroups() {
-    const groups = await this.getGroupIds();
-    const result = [];
-
-    for (let groupId of groups) {
-      const group = await this.coapClient.getGroups(groupId);
-      const mappedData = transformRawGroupData(group);
-
-      const devicesInGroup = [];
-      for (let deviceId of mappedData.devices) {
-        const deviceData = await this.coapClient.getDevices(deviceId);
-        devicesInGroup.push(transformRawDeviceData(deviceData));
-      }
-
-      mappedData.devices = devicesInGroup;
-      result.push(mappedData);
+    getDeviceIds() {
+        return this.coapClient.getDevices();
     }
 
-    return result;
-  }
-
-  turnOnDevice(deviceId) {
-    return this.coapClient.operate('device', deviceId, { state: 'on' });
-  }
-
-  turnOffDevice(deviceId) {
-    return this.coapClient.operate('device', deviceId, { state: 'off' });
-  }
-
-  async toggleDevice(deviceId, state) {
-    const device = transformRawDeviceData(await this.coapClient.getDevices(deviceId));
-    if (isUndefined(state)) {
-      if (device.on) {
-        return this.turnOffDevice(deviceId);
-      }
-      return this.turnOnDevice(deviceId);
+    getGroupIds() {
+        return this.coapClient.getGroups();
     }
 
-    if (state) {
-      return this.turnOnDevice(deviceId);
+    getDevices(inputIds) {
+        var self = this;
+        var promise = new RSVP.Promise((resolve, reject) => {
+            if (inputIds !== undefined) {
+                //An array with device ids is received
+                var pId = [];
+                inputIds.forEach(id => {
+                    pId.push(self.getDevice(id))
+                });
+                //Check when all are done
+                RSVP.all(pId).then(rawdevices => {
+                    resolve(rawdevices);
+                }).catch(err => {
+                    reject(err)
+                });
+
+            } else {
+                //No input, get all devices
+                self.getDeviceIds().then(ids => {
+                    //Create array of promises to get all details
+                    var pId = [];
+                    ids.forEach(id => {
+                        pId.push(self.getDevice(id))
+                    });
+
+                    //Check when all are done
+                    RSVP.all(pId).then(rawdevices => {
+                        resolve(rawdevices);
+                    }).catch(err => {
+                        reject(err)
+                    });
+                }).catch(err => {
+                    reject(err);
+                });
+
+            }
+        });
+
+        return promise;
     }
 
-    return this.turnOffDevice(deviceId);
-  }
-
-  setDeviceState(deviceId, properties) {
-    return this.coapClient.operate('device', deviceId, properties);
-  }
-
-  turnOnGroup(groupId) {
-    return this.coapClient.operate('group', groupId, { state: 'on' });
-  }
-
-  turnOffGroup(groupId) {
-    return this.coapClient.operate('group', groupId, { state: 'off' });
-  }
-
-  async toggleGroup(groupId, state) {
-    const group = transformRawGroupData(await this.coapClient.getGroups(groupId));
-
-    if (isUndefined(state)) {
-      if (group.on) {
-        return this.turnOffGroup(groupId);
-      }
-      return this.turnOnGroup(groupId);
+    getDevice(id) {
+        var self = this;
+        var promise = new RSVP.Promise((resolve, reject) => {
+            self.coapClient.getDevices(id).then(r => {
+                try {
+                    resolve(transformRawDeviceData(r))
+                } catch (err) {
+                    reject("Failed to convert raw device data");
+                }
+            }).catch(err => {
+                reject(err)
+            });
+        });
+        return promise;
     }
 
-    if (state) {
-      return this.turnOnGroup(groupId);
+    getGroups() {
+        var self = this;
+
+        var promise = new RSVP.Promise((resolve, reject) => {
+            self.getGroupIds().then(ids => {
+                //Create array of promises to get all details
+                var pId = [];
+                ids.forEach(id => {
+                    pId.push(self.getGroup(id));
+                });
+                //Check when all are done
+                RSVP.all(pId).then(rawgroups => {
+                    resolve(rawgroups);
+                }).catch(err => {
+                    reject(err)
+                });
+            }).catch(err => {
+                reject(err)
+            });
+        });
+        return promise;
     }
 
-    return this.turnOffGroup(groupId);
-  }
+    getGroup(id) {
+        var self = this;
+        var promise = new RSVP.Promise((resolve, reject) => {
+            self.coapClient.getGroups(id).then(r => {
+                try {
+                    resolve(transformRawGroupData(r));
+                } catch (err) {
+                    reject("Failed to convert raw group data");
+                }
+            }).catch(err => {
+                reject(err)
+            });
+        });
+        return promise;
+    }
 
-  setGroupState(groupId, properties) {
-    return this.coapClient.operate('group', groupId, properties);
-  }
+    getAll() {
+        var self = this;
 
-  static create(config) {
-    return new Tradfri(config);
-  }
+        var promise = new RSVP.Promise((resolve, reject) => {
+            var result = [];
+            self.getGroups().then(groups => {
+                var pdevices = [];
+                groups.forEach(group => {
+                    pdevices.push(self.getDevices(group.devices));
+                });
+                RSVP.all(pdevices).then(devices => {
+                    for (var i = 0; i < devices.length; i++) {
+                        result.push(groups[i]);
+                        result[i].devices = devices[i];
+                    }
+                    resolve(result);
+                }).catch(err => {
+                    reject(err)
+                });
+
+            }).catch(err => {
+                reject(err);
+            });
+        })
+        return promise;
+    }
+
+    turnOnDevice(deviceId) {
+        return this.coapClient.operate('device', deviceId, {
+            state: 'on'
+        });
+    }
+
+    turnOffDevice(deviceId) {
+        return this.coapClient.operate('device', deviceId, {
+            state: 'off'
+        });
+    }
+
+    toggleDevice(deviceId, state) {
+        var self = this;
+
+        var promise = new RSVP.Promise((resolve, reject) => {
+            self.getDevice(deviceId).then(device => {
+                if (isUndefined(state)) {
+                    if (device.on) {
+                        return this.turnOffDevice(deviceId);
+                    }
+                    return this.turnOnDevice(deviceId);
+                }
+
+                if (state) {
+                    return this.turnOnDevice(deviceId);
+                }
+
+                return this.turnOffDevice(deviceId);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+
+        return promise;
+    }
+
+    setDeviceState(deviceId, properties) {
+        return this.coapClient.operate('device', deviceId, properties);
+    }
+
+    turnOnGroup(groupId) {
+        return this.coapClient.operate('group', groupId, {
+            state: 'on'
+        });
+    }
+
+    turnOffGroup(groupId) {
+        return this.coapClient.operate('group', groupId, {
+            state: 'off'
+        });
+    }
+
+    toggleGroup(groupId, state) {
+        var self = this;
+
+        var promise = new RSVP.Promise((resolve, reject) => {
+            self.getGroup(groupId).then(group => {
+                if (isUndefined(state)) {
+                    if (group.on) {
+                        return this.turnOffGroup(groupId);
+                    }
+                    return this.turnOnGroup(groupId);
+                }
+
+                if (state) {
+                    return this.turnOnGroup(groupId);
+                }
+
+                return this.turnOffGroup(groupId);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+
+        return promise;
+
+    }
+
+    setGroupState(groupId, properties) {
+        return this.coapClient.operate('group', groupId, properties);
+    }
+    static create(config) {
+        return new Tradfri(config);
+    }
 }
 
 module.exports = Tradfri;
