@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "lodash": "4.17.4",
+    "p-throttler": "^1.0.2",
     "rsvp": "^3.5.0"
   }
 }
