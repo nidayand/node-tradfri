@@ -1,5 +1,5 @@
 
-# Node Tradfri API - Node.js Argon (v4.x+) supported
+# Node Tradfri API - Node.js Argon (v4.x+) supported [![npm version](https://badge.fury.io/js/node-tradfri-argon.svg)](https://badge.fury.io/js/node-tradfri-argon)
 Node API to control **IKEA Tradfri (Trådfri)** Lights.
 Tested on node version **4.4.7**
 
