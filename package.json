@@ -1,5 +1,5 @@
 {
-  "name": "node-tradfri-es5",
+  "name": "node-tradfri-argon",
   "version": "1.0.0",
   "description": "Async Node Module To Control IKEA Tradfri Lights with Javascript ECMAScript 5 support. Refactored version of Marton Papps original - node-tradfri.",
   "main": "index.js",
