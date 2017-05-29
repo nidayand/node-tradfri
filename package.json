@@ -1,39 +1,32 @@
 {
-  "name": "node-tradfri",
-  "version": "0.1.4",
-  "description": "Async Node Module To Control IKEA Tradfri Lights",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "test-watch": "jest --watch"
-  },
-  "keywords": [
+    "name": "node-tradfri-es5",
+    "version": "1.0.0",
+    "description": "Async Node Module To Control IKEA Tradfri Lights with Javascript ECMAScript 5 support. Refactored version of Marton Papps original - node-tradfri.",
+    "main": "index.js",
+    "keywords": [
     "ikea",
     "tradfri"
-  ],
-  "jest": {
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!**/coverage/**",
-      "!**/vendor/**"
-    ]
-  },
-  "author": "Marton Papp <morz@morz.hu> (http://morz.hu)",
-  "license": "ISC",
-  "devDependencies": {
-    "eslint": "3.19.0",
-    "eslint-config-airbnb": "14.1.0",
-    "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-jest": "19.0.1",
-    "eslint-plugin-jsx-a11y": "4.0.0",
-    "eslint-plugin-react": "6.10.3",
-    "jest": "19.0.2"
-  },
-  "dependencies": {
-    "lodash": "4.17.4",
-    "p-throttler": "^1.0.2",
-    "rsvp": "^3.5.0"
-  }
+    ],
+    "engines": {
+        "node": ">=4.4.7"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nidayand/node-tradfri-es5.git"
+    },
+    "author": {
+        "name": "nidayand",
+        "email": "pggithub@gothager.se"
+    },
+    "contributors": [{
+        "name": "Marton Papp",
+        "email": "morz@morz.hu",
+        "url": "http://morz.hu"
+    }],
+    "license": "ISC",
+    "dependencies": {
+        "lodash": "4.17.4",
+        "p-throttler": "^1.0.2",
+        "rsvp": "^3.5.0"
+    }
 }
