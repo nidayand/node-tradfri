@@ -1,7 +1,7 @@
 
-# Node Tradfri API (ES5 supported)![img](http://i.imgur.com/Qicn5wu.jpg) [![Build Status](https://travis-ci.org/morzzz007/node-tradfri.svg?branch=master)](https://travis-ci.org/morzzz007/node-tradfri) [![npm version](https://badge.fury.io/js/node-tradfri.svg)](https://badge.fury.io/js/node-tradfri) [![npm](https://img.shields.io/npm/dm/node-tradfri.svg)]()
+# Node Tradfri API - Node.js Argon (v4.x) supported
 Node API to control **IKEA Tradfri (Trådfri)** Lights.
-Supports Node versions **4.4.7+**
+Tested on node versions **4.4.7+**
 
 The package is a refactoring for Javascript ECMAScript v5 support of [node-tradfri](https://github.com/morzzz007/node-tradfri) by [morzzz007](https://github.com/morzzz007)
 
