@@ -7,16 +7,12 @@
     "ikea",
     "tradfri"
   ],
-  "scripts": {
-    "test": "jest",
-    "test-watch": "jest --watch"
-  },
   "engines": {
     "node": ">=4.4.7"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nidayand/node-tradfri-es5.git"
+    "url": "git+https://github.com/nidayand/node-tradfri-argon.git"
   },
   "author": {
     "name": "nidayand",
@@ -41,16 +37,6 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jest": "19.0.1",
     "eslint-plugin-jsx-a11y": "4.0.0",
-    "eslint-plugin-react": "6.10.3",
-    "jest": "19.0.2"
-  },
-  "jest": {
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!**/coverage/**",
-      "!**/vendor/**"
-    ]
+    "eslint-plugin-react": "6.10.3"
   }
 }
