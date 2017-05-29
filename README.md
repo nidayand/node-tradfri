@@ -5,6 +5,8 @@ Supports Node versions **4.4.7+**
 
 The package is a refactoring for Javascript ECMAScript v5 support of [node-tradfri](https://github.com/morzzz007/node-tradfri) by [morzzz007](https://github.com/morzzz007)
 
+Work in progress
+
 <!--
 ## Installation
 
