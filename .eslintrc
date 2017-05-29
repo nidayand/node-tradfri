@@ -4,7 +4,8 @@
   ],
   "rules": {
     "es5/no-block-scoping": "error",
-    "no-var": off
+    "no-var": off,
+    "eol-last": off
     
   },
   "extends": ["airbnb"]
