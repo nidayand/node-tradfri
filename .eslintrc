@@ -1,9 +1,11 @@
 {
   "plugins": [
-    "jest"
+    "es5"
   ],
-  "env": {
-    "jest/globals": true
+  "rules": {
+    "es5/no-block-scoping": "error",
+    "no-var": off
+    
   },
-  "extends": ["airbnb","plugin:jest/recommended"]
+  "extends": ["airbnb","plugin:es5/no-es2016"]
 }
