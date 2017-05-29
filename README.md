@@ -1,16 +1,19 @@
-
-# Node Tradfri API - Node.js Argon (v4.x+) supported [![npm version](https://badge.fury.io/js/node-tradfri-argon.svg)](https://badge.fury.io/js/node-tradfri-argon)
-Node API to control **IKEA Tradfri (Trådfri)** Lights.
+# Node TRÅDFRI API - Node.js Argon (v4.x+) supported [![npm version](https://badge.fury.io/js/node-tradfri-argon.svg)](https://badge.fury.io/js/node-tradfri-argon)
+Node API to control **IKEA TRÅDFRI (TRADFRI)** Lights.
 Tested on node version **4.4.7**
 
-The package is a refactoring for older version of Node.js (from 4.x) support of [node-tradfri](https://github.com/morzzz007/node-tradfri) by [morzzz007](https://github.com/morzzz007)
+The package is a refactoring for older versions of Node.js (from 4.x) support of [node-tradfri](https://github.com/morzzz007/node-tradfri) by [morzzz007](https://github.com/morzzz007)
 
-Work in progress
+ - Every method returns a Promise. See example under `Usage` for a detailed description
+ - Package has been tested on Node.js v4.4.7
+ - P-throttle is used to make sure that all CoAP client calls are in series (to avoid execution blocking)
+ - RSVP lib is used to manage Promises in the library
+ - Thanks  [morzzz007](https://github.com/morzzz007) for creating [node-tradfri](https://github.com/morzzz007/node-tradfri). It made it fairly simple to increased the backlevel support
+ - Yes, the naming of the package is from the Node.js v4 code name
 
-<!--
 ## Installation
 
-`npm install node-tradfri-es5 --save`
+`npm install node-tradfri-argon --save`
 
 ## CoAP
 
@@ -18,21 +21,25 @@ This library uses [libcoap](https://github.com/obgm/libcoap) with tinydtls to se
 
 ## Usage
 ```javascript
-  const tradfri = require('node-tradfri').create({
+  var tradfri = require('node-tradfri-argon').create({
     coapClientPath: './lib/coap-client', // use embedded coap-client
     securityId: '<security_id>',
     hubIpAddress: '<hub_ip_address>'
   });
 
-  const devices = await tradfri.getDevices();
+  tradfri.getDevices().then((devices) => {
+    devices.forEach(...);
+  }).catch((error) => {
+    // Manage the error
+  });
 
   // or
 
-  await tradfri.setDeviceState(65537, {
+  tradfri.setDeviceState(65537, {
     state: 'on',
     color: 'ffffff',
     brightness: 255
-  });
+  }).then(...).catch(...);
 ```
 
 # API
@@ -48,9 +55,10 @@ Using the typical promises approach:
 ## Public API List
 |Devices|Groups|
 |---|---|
-|getDevice()|getGroup()|
 |getDeviceIds()|getGroupIds()|
+|getDevice()|getGroup()|
 |getDevices()|getGroups()|
+||getAll()|
 |turnOnDevice()|turnOnGroup()|
 |turnOffDevice()|turnOffGroup()|
 |toggleDevice()|toggleGroup()|
@@ -64,6 +72,17 @@ Returns device id's.
 Response:
 ```javascript
   [65536, 65537, 65538]
+```
+
+### getDevice(`<deviceId>`)
+Returns details on one specific device.
+
+Response:
+```javascript
+{ id: 65536,
+    name: 'TRADFRI remote control',
+    type: 'TRADFRI remote control',
+    on: false }
 ```
 
 ### getDevices()
@@ -107,12 +126,12 @@ Example:
 #### Examples
 Turn device on:
 ```javascript
-await tradfri.setDeviceState(65537, { state: 'on' });
+tradfri.setDeviceState(65537, { state: 'on' }).then(..);
 ```
 
 Combine settings, turn on and set brightness:
 ```javascript
-await tradfri.setDeviceState(65537, { state: 'on', brightness: 255 });
+tradfri.setDeviceState(65537, { state: 'on', brightness: 255 }).then(...);
 ```
 
 #### Usage
@@ -140,6 +159,17 @@ Response:
   [150429]
 ```
 
+### getGroup(`<groupId>`)
+Returns group id's.
+
+Response:
+```javascript
+{ id: 150429,
+    name: 'Kitchen',
+    devices: [65536, 65537, 65538],
+    on: false }
+```
+
 ### getGroups()
 Returns an array of groups with the devices in it.
 
@@ -147,8 +177,34 @@ Response:
 ```javascript
 [ { id: 150429,
     name: 'Kitchen',
-    devices: [ [Object], [Object], [Object] ],
-    on: false } ]
+    devices: [ [65536, 65537, 65538] ],
+    on: false },
+    { id: 150428,
+    name: 'Livingroom',
+    devices: [ [65531, 65532] ],
+    on: true }]
+```
+### getAll()
+Returns an array of groups with the devices in it including detailed device information.
+
+Response:
+```javascript
+[ { id: 150429,
+    name: 'Kitchen',
+    devices: [ { id: 65536,
+        name: 'TRADFRI remote control',
+        type: 'TRADFRI remote control',
+        on: false },
+      { id: 65537,
+        name: 'TRADFRI bulb E27 WS opal 980lm',
+        type: 'TRADFRI bulb E27 WS opal 980lm',
+        on: false },
+      { id: 65538,
+        name: 'TRADFRI bulb E27 WS opal 980lm 2',
+        type: 'TRADFRI bulb E27 WS opal 980lm',
+        on: false } ],
+    on: false },
+    {...}]
 ```
 
 ### turnOnGroup(`<groupId>`)
@@ -173,12 +229,12 @@ Response:
 #### Examples
 Turn group on:
 ```javascript
-await tradfri.setGroupState(150429, { state: 'on' });
+tradfri.setGroupState(150429, { state: 'on' }).then(...);
 ```
 
 Combine settings, turn on and set brightness:
 ```javascript
-await tradfri.setGroupState(150429, { state: 'on', brightness: 255 });
+tradfri.setGroupState(150429, { state: 'on', brightness: 255 }).then(...);
 ```
 
 #### Usage
@@ -212,4 +268,3 @@ $ ./configure --disable-documentation --disable-shared
 $ make```
 
 You'll find the coap-client binary in `./examples`
--->
