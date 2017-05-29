@@ -18,13 +18,6 @@
     "name": "nidayand",
     "email": "pggithub@gothager.se"
   },
-  "contributors": [
-    {
-      "name": "Marton Papp",
-      "email": "morz@morz.hu",
-      "url": "http://morz.hu"
-    }
-  ],
   "license": "ISC",
   "dependencies": {
     "lodash": "4.17.4",
