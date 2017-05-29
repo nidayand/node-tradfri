@@ -7,5 +7,5 @@
     "no-var": off
     
   },
-  "extends": ["airbnb","plugin:es5/no-es2016"]
+  "extends": ["airbnb"]
 }
