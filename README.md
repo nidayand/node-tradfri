@@ -1,18 +1,18 @@
 
-# Node Tradfri API ![img](http://i.imgur.com/Qicn5wu.jpg) [![Build Status](https://travis-ci.org/morzzz007/node-tradfri.svg?branch=master)](https://travis-ci.org/morzzz007/node-tradfri) [![npm version](https://badge.fury.io/js/node-tradfri.svg)](https://badge.fury.io/js/node-tradfri) [![npm](https://img.shields.io/npm/dm/node-tradfri.svg)]()
+# Node Tradfri API (ES5 supported)![img](http://i.imgur.com/Qicn5wu.jpg) [![Build Status](https://travis-ci.org/morzzz007/node-tradfri.svg?branch=master)](https://travis-ci.org/morzzz007/node-tradfri) [![npm version](https://badge.fury.io/js/node-tradfri.svg)](https://badge.fury.io/js/node-tradfri) [![npm](https://img.shields.io/npm/dm/node-tradfri.svg)]()
 Node API to control **IKEA Tradfri (Trådfri)** Lights.
-Currently supports Node versions **7.6+** only!
+Supports Node versions **4.4.7+**
 
+The package is a refactoring for Javascript ECMAScript v5 support of [node-tradfri](https://github.com/morzzz007/node-tradfri) by [morzzz007](https://github.com/morzzz007)
 
+<!--
 ## Installation
 
-`npm install node-tradfri --save`
+`npm install node-tradfri-es5 --save`
 
 ## CoAP
 
-This library uses [libcoap](https://github.com/obgm/libcoap) with tinydtls to send CoAP requests.
-Prebuilt OsX client is included or you can build your own and set the `coapClientPath` config setting to point to your library.
-For more information on building a CoAP client [see this section.](#how-to-build-coap-client)
+This library uses [libcoap](https://github.com/obgm/libcoap) with tinydtls to send CoAP requests. Build instructions are described below [see this section.](#compiling-libcoap) and set the `coapClientPath` config setting to point to your library.
 
 ## Usage
 ```javascript
@@ -37,21 +37,16 @@ For more information on building a CoAP client [see this section.](#how-to-build
 ## Basics
 Every exposed method is asynchronous and returns a promise.
 
-You can use async/await:
-```javascript
-  const deviceIds = await tradfri.getDeviceIds();
-```
-
-Or the typical promises approach:
+Using the typical promises approach:
 ```javascript
   tradfri.getDeviceIds().then(deviceIds => {
     // do something
   });
 ```
-
 ## Public API List
 |Devices|Groups|
 |---|---|
+|getDevice()|getGroup()|
 |getDeviceIds()|getGroupIds()|
 |getDevices()|getGroups()|
 |turnOnDevice()|turnOnGroup()|
@@ -200,28 +195,19 @@ In newState you can combine the following values:
 |`brightness`|number/string (0-255)|Sets brightness
 
 
-# How to build CoAP client
-## OsX prerequisites
-```shell
-brew install libtool
-brew install automake
-brew install autoconf
-```
+#Compiling libcoap
+Install libcoap as descibed below for Debian/Ubuntu/Raspbian:
+(credits to homebridge-tradfri)
 
-### Build
-```shell
-git clone https://github.com/obgm/libcoap.git
-cd libcoap
-git checkout origin/dtls
-git checkout -b dtls
-git submodule update --init ext/tinydtls
-cd ext/tinydtls
-autoreconf
-./configure
-cd ../../
-./autogen.sh
-./configure --disable-shared --disable-documentation
-make
 ```
+$ apt-get install libtool git build-essential autoconf automake
+$ git clone --recursive https://github.com/obgm/libcoap.git
+$ cd libcoap
+$ git checkout dtls
+$ git submodule update --init --recursive
+$ ./autogen.sh
+$ ./configure --disable-documentation --disable-shared
+$ make```
 
-Now you can find the coap-client in the `/examples` directory
+You'll find the coap-client binary in `./examples`
+-->
