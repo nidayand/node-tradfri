@@ -254,6 +254,7 @@ In newState you can combine the following values:
 
 
 #Compiling libcoap
+
 Install libcoap as descibed below for Debian/Ubuntu/Raspbian:
 (credits to homebridge-tradfri)
 
