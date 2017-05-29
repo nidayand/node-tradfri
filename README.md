@@ -3,7 +3,7 @@
 Node API to control **IKEA Tradfri (Trådfri)** Lights.
 Tested on node version **4.4.7**
 
-The package is a refactoring for Javascript ECMAScript v5 support of [node-tradfri](https://github.com/morzzz007/node-tradfri) by [morzzz007](https://github.com/morzzz007)
+The package is a refactoring for older version of Node.js (from 4.x) support of [node-tradfri](https://github.com/morzzz007/node-tradfri) by [morzzz007](https://github.com/morzzz007)
 
 Work in progress
 
