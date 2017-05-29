@@ -9,7 +9,6 @@ The package is a refactoring for older versions of Node.js (from 4.x) support of
  - P-throttle is used to make sure that all CoAP client calls are in series (to avoid execution blocking)
  - RSVP lib is used to manage Promises in the library
  - Thanks  [morzzz007](https://github.com/morzzz007) for creating [node-tradfri](https://github.com/morzzz007/node-tradfri). It made it fairly simple to increased the backlevel support
- - Yes, the naming of the package is from the Node.js v4 code name
 
 ## Installation
 
@@ -252,12 +251,11 @@ In newState you can combine the following values:
 |`color`|string (hex color value, ex: 'efd275')|Sets color
 |`brightness`|number/string (0-255)|Sets brightness
 
-
-#Compiling libcoap
+# Compiling libcoap
+<a name="compiling-libcoap"></a>
 
 Install libcoap as descibed below for Debian/Ubuntu/Raspbian:
 (credits to homebridge-tradfri)
-
 ```
 $ apt-get install libtool git build-essential autoconf automake
 $ git clone --recursive https://github.com/obgm/libcoap.git
@@ -266,6 +264,7 @@ $ git checkout dtls
 $ git submodule update --init --recursive
 $ ./autogen.sh
 $ ./configure --disable-documentation --disable-shared
-$ make```
+$ make
+```
 
 You'll find the coap-client binary in `./examples`
