@@ -1,40 +1,36 @@
 {
-    "name": "node-tradfri-argon",
-    "version": "1.0.6",
-    "description": "Async Node Module To Control IKEA Tradfri Lights with Node.js Argon (v4.x) support. Refactored version of Marton Papps original - node-tradfri.",
-    "main": "index.js",
-    "keywords": [
+  "name": "node-tradfri-argon",
+  "version": "1.0.7",
+  "description": "Async Node Module To Control IKEA Tradfri Lights with Node.js Argon (v4.x) support. Refactored version of Marton Papps original - node-tradfri.",
+  "main": "index.js",
+  "keywords": [
     "ikea",
     "tradfri",
-    "trådfri"],
-    "engines": {
-        "node": ">=4.4.7"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/nidayand/node-tradfri-argon.git"
-    },
-    "author": {
-        "name": "nidayand",
-        "email": "pggithub@gothager.se"
-    },
-    "license": "ISC",
-    "dependencies": {
-        "lodash": "4.17.4",
-        "p-throttler": "^1.0.2",
-        "rsvp": "^3.5.0"
-    },
-    "dependencies": {
-        "lodash": "4.17.4",
-        "p-throttler": "^1.0.2",
-        "rsvp": "^3.5.0"
-    },
-    "devDependencies": {
-        "eslint": "3.19.0",
-        "eslint-config-airbnb": "14.1.0",
-        "eslint-plugin-import": "2.2.0",
-        "eslint-plugin-jest": "19.0.1",
-        "eslint-plugin-jsx-a11y": "4.0.0",
-        "eslint-plugin-react": "6.10.3"
-    }
+    "trådfri"
+  ],
+  "engines": {
+    "node": ">=4.4.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nidayand/node-tradfri-argon.git"
+  },
+  "author": {
+    "name": "nidayand",
+    "email": "pggithub@gothager.se"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "4.17.4",
+    "p-throttler": "^1.0.2",
+    "rsvp": "^3.5.0"
+  },
+  "devDependencies": {
+    "eslint": "3.19.0",
+    "eslint-config-airbnb": "14.1.0",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jest": "19.0.1",
+    "eslint-plugin-jsx-a11y": "4.0.0",
+    "eslint-plugin-react": "6.10.3"
+  }
 }
