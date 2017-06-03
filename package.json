@@ -1,6 +1,6 @@
 {
   "name": "node-tradfri-argon",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Async Node Module To Control IKEA Tradfri Lights with Node.js Argon (v4.x) support. Refactored version of Marton Papps original - node-tradfri.",
   "main": "index.js",
   "keywords": [
