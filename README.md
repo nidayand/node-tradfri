@@ -256,7 +256,9 @@ In newState you can combine the following values:
 
 # Compiling libcoap
 <a name="compiling-libcoap"></a>
+A number of versions are available in the `lib folder` but if it is required to recompile the library the instructions are below.
 
+## Linux
 Install libcoap as descibed below for Debian/Ubuntu/Raspbian:
 (credits to homebridge-tradfri)
 ```
@@ -270,7 +272,28 @@ $ ./configure --disable-documentation --disable-shared
 $ make
 ```
 
-You'll find the coap-client binary in `./examples`. Simply refer to the coap-client location when initiating `node-tradfri-argon`. E.g.
+## OSX
+Use [brew](https://brew.sh/) to install the prerequisites and then clone the git repo and build the library as described below.
+```
+$ brew install libtool
+$ brew install automake
+$ brew install autoconf
+$ git clone https://github.com/obgm/libcoap.git
+$ cd libcoap
+$ git checkout origin/dtls
+$ git checkout -b dtls
+$ git submodule update --init ext/tinydtls
+$ cd ext/tinydtls
+$ autoreconf
+$ ./configure
+$ cd ../../
+$ ./autogen.sh
+$ ./configure --disable-shared --disable-documentation
+$ make
+```
+
+## Where is the client?
+After compilation you'll find the coap-client binary in `./examples`. Simply refer to the coap-client location when initiating `node-tradfri-argon`. E.g.
 
 ```javascript
   var tradfri = require('node-tradfri-argon').create({
