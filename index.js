@@ -179,6 +179,25 @@ class Tradfri {
   }
 
   setDeviceState(deviceId, properties) {
+
+    if (properties.state === 'toggle') {
+      var self = this;
+      var promise = new RSVP.Promise((resolve, reject) => {
+        self.getDevice(deviceId).then((device) => {
+          if (device.on) {
+            properties.state = 'off';
+          } else {
+            properties.state = 'on';
+          }
+          return self.coapClient.operate('device', deviceId, properties);
+        }).catch((err) => {
+          reject(err);
+        });
+      });
+
+      return promise;
+    }
+
     return this.coapClient.operate('device', deviceId, properties);
   }
 
@@ -220,8 +239,27 @@ class Tradfri {
   }
 
   setGroupState(groupId, properties) {
+      if (properties.state === 'toggle') {
+      var self = this;
+      var promise = new RSVP.Promise((resolve, reject) => {
+        self.getGroup(groupId).then((group) => {
+          if (group.on) {
+            properties.state = 'off';
+          } else {
+            properties.state = 'on';
+          }
+          return this.coapClient.operate('group', groupId, properties);
+        }).catch((err) => {
+          reject(err);
+        });
+      });
+
+      return promise;
+    }
+
     return this.coapClient.operate('group', groupId, properties);
   }
+
   static create(config) {
     return new Tradfri(config);
   }
