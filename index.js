@@ -4,9 +4,9 @@ var isUndefined = require('lodash/isUndefined');
 var coapClient = require('./lib/coap-client.js');
 var RSVP = require('rsvp');
 
-var transformRawDeviceData = require('./lib/data-transfomers').transformRawDeviceData;
+var transformRawDeviceData = require('./lib/data-transformers').transformRawDeviceData;
 
-var transformRawGroupData = require('./lib/data-transfomers').transformRawGroupData;
+var transformRawGroupData = require('./lib/data-transformers').transformRawGroupData;
 
 class Tradfri {
   constructor(config) {
