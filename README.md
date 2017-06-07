@@ -147,9 +147,10 @@ In newState you can combine the following values:
 
 |Parameters|values|action|
 |---|---|---|
-|`state`|boolean/string ('on', 'off')|Toggle light on/off
-|`color`|string (hex color value, ex: 'efd275')|Sets color
+|`state`|boolean/string ('on', 'off', 'toogle')| light on/off/toggle
+|`color`|string (hex color value, ex: 'efd275' or 'cool', 'normal', 'warm')|Sets color
 |`brightness`|number/string (0-255)|Sets brightness
+|`transitionTime`|number in seconds|Sets time to transition from one state to another
 
 ## Methods for working with groups
 
