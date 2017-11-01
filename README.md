@@ -22,7 +22,8 @@ This library uses [libcoap](https://github.com/obgm/libcoap) with tinydtls to se
 ```javascript
   var tradfri = require('node-tradfri-argon').create({
     coapClientPath: './lib/coap-client', // Path to coap-client
-    securityId: '<security_id>',        // As found on the IKEA hub
+    username: '<your_username>'
+    securityId: '<your_username_psk>',
     hubIpAddress: '<hub_ip_address>'    // IP-address of IKEA hub
   });
 
@@ -299,6 +300,7 @@ After compilation you'll find the coap-client binary in `./examples`. Simply ref
 ```javascript
   var tradfri = require('node-tradfri-argon').create({
     coapClientPath: '/home/pi/libcoap/examples/coap-client',
+    username: 'mycustomuser',
     securityId: '2wsY2QSL65k5iD8i',
     hubIpAddress: '192.168.2.193'
   });
