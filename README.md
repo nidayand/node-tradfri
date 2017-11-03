@@ -18,16 +18,43 @@ The package is a refactoring for older versions of Node.js (from 4.x) support of
 
 This library uses [libcoap](https://github.com/obgm/libcoap) with tinydtls to send CoAP requests. Build instructions are described below [see this section.](#compiling-libcoap) and set the `coapClientPath` config setting to point to your library.
 
-## Usage
+## Generate Identity
+
+Since Tradfri Gateway Version 1.2.1, Tradfri uses Coap-Indentities. To generate such an indentity use the informations below:
+
 ```javascript
-  var tradfri = require('node-tradfri-argon').create({
+var tradfri = require('node-tradfri-argon');
+var t = tradfri.create({
     coapClientPath: './lib/coap-client', // Path to coap-client
-    username: '<your_username>'
-    securityId: '<your_username_psk>',
+    username: 'Client_identity',
+    securityId: '<security_id>',        // As found on the IKEA hub
     hubIpAddress: '<hub_ip_address>'    // IP-address of IKEA hub
   });
 
-  tradfri.getDevices().then((devices) => {
+t.generateIdentity("<your_username>") // choose a username for example: "mycustomuser"
+  .then(psk => {
+    console.log(psk);
+  })
+  .catch(error => {
+    // Manage the error
+    console.log(error);
+  });
+
+```
+
+
+## Usage
+```javascript
+  var tradfri = require('node-tradfri-argon');
+
+  var t = tradfri.create({
+    coapClientPath: './lib/coap-client', // Path to coap-client
+    username: '<your_username>', // your choosen username
+    securityId: '<your_username_psk>', // response securityId
+    hubIpAddress: '<hub_ip_address>'    // IP-address of IKEA hub
+  });
+
+  t.getDevices().then((devices) => {
     devices.forEach((device) => {
         console.log(device);
     });
@@ -38,7 +65,7 @@ This library uses [libcoap](https://github.com/obgm/libcoap) with tinydtls to se
 
   // or
 
-  tradfri.setDeviceState(65537, {
+  t.setDeviceState(65537, {
     state: 'on',
     color: 'ffffff',
     brightness: 255
