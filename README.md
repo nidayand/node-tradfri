@@ -30,9 +30,7 @@ This library uses [libcoap](https://github.com/obgm/libcoap) with tinydtls to se
 
   /* First time you need to register the connection and the result is used in subsequent calls. Make sure that you save the preshared key that is returned. It is unique per `identity` as specifid in when creating the tradfri object as above */
   tradfri.register().then(resp => {
-    if (resp["9091"]){
-      tradfri.setPresharedKey(resp["9091"]);
-    }
+      tradfri.setPresharedKey(resp.preshared_key);
   });
 
   tradfri.getDevices().then((devices) => {
