@@ -13,6 +13,13 @@ class Tradfri {
     this.coapClient = coapClient.create(config);
   }
 
+  register(){
+    return this.coapClient.register();
+  }
+  setPresharedKey(key){
+    return this.coapClient.setPresharedKey(key);
+  }
+
   getDeviceIds() {
     return this.coapClient.getDevices();
   }

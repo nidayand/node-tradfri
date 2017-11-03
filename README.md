@@ -23,7 +23,16 @@ This library uses [libcoap](https://github.com/obgm/libcoap) with tinydtls to se
   var tradfri = require('node-tradfri-argon').create({
     coapClientPath: './lib/coap-client', // Path to coap-client
     securityId: '<security_id>',        // As found on the IKEA hub
-    hubIpAddress: '<hub_ip_address>'    // IP-address of IKEA hub
+    hubIpAddress: '<hub_ip_address>',    // IP-address of IKEA hub
+    identity: '<any string representing the connection>' //Identifying the 3rd party client
+    //,preshared_key: '<preshared key>' //If register has already been performed in the identity
+  });
+
+  /* First time you need to register the connection and the result is used in subsequent calls. Make sure that you save the preshared key that is returned. It is unique per `identity` as specifid in when creating the tradfri object as above */
+  tradfri.register().then(resp => {
+    if (resp["9091"]){
+      tradfri.setPresharedKey(resp["9091"]);
+    }
   });
 
   tradfri.getDevices().then((devices) => {
@@ -300,6 +309,8 @@ After compilation you'll find the coap-client binary in `./examples`. Simply ref
   var tradfri = require('node-tradfri-argon').create({
     coapClientPath: '/home/pi/libcoap/examples/coap-client',
     securityId: '2wsY2QSL65k5iD8i',
-    hubIpAddress: '192.168.2.193'
+    hubIpAddress: '192.168.2.193',
+    identity: 'mycustomapp',
+    preshared_key: '3PKkShwAP5t2u2lI'
   });
 ```
