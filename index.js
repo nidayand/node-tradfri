@@ -8,13 +8,27 @@ var transformRawDeviceData = require('./lib/data-transformers').transformRawDevi
 
 var transformRawGroupData = require('./lib/data-transformers').transformRawGroupData;
 
+var transformIdentityData = require('./lib/data-transformers').transformIdentityData;
+
 class Tradfri {
   constructor(config) {
     this.coapClient = coapClient.create(config);
   }
 
   register(){
-    return this.coapClient.register();
+    var self = this;
+    var promise = new RSVP.Promise((resolve, reject) => {
+      self.coapClient.register().then((r) => {
+        try {
+          resolve(transformIdentityData(r));
+        } catch (err) {
+          reject('Failed to get preshared key');
+        }
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+    return promise;
   }
   setPresharedKey(key){
     return this.coapClient.setPresharedKey(key);
