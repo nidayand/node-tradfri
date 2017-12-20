@@ -156,7 +156,8 @@ In newState you can combine the following values:
 |---|---|---|
 |`state`|boolean/string ('on', 'off', 'toogle')| light on/off/toggle
 |`color`|string (hex color value, ex: 'efd275' or 'cool', 'normal', 'warm')|Sets color
-|`brightness`|number/string (0-255)|Sets brightness
+|`brightness`|number/string [0-255]|Sets brightness
+|`mired`|number [40-600] for RGB bulbs, [250-454] for white spectrum bulbs | Sets color temperature
 |`transitionTime`|number in seconds/10|Sets time to transition from one state to another
 
 ## Methods for working with groups
